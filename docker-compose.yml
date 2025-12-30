@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # Servicio de PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: logika_postgres
+    env_file:
+      - .env.local
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - logika_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d task_system_logika"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Servicio de FastAPI
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: logika_api
+    env_file:
+      - .env.local
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_SERVER: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: task_system_logika
+    volumes:
+      - ./app:/code/app
+      - ./alembic.ini:/code/alembic.ini
+      - ./.env.local:/code/.env.local
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - logika_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  logika_network:
+    driver: bridge
