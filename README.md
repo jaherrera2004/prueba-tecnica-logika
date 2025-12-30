@@ -112,6 +112,7 @@ La API estará lista en aproximadamente 15 segundos.
 - **[Documentación completa de la API](docs/API_DOCUMENTATION.md)** - Todos los endpoints con ejemplos detallados
 - **[Guía de migraciones](docs/MIGRATIONS.md)** - Comandos y buenas prácticas con Alembic
 - **[Diagrama de base de datos](imgs/db_diagram.png)** - Esquema visual de las tablas y relaciones
+- **[Colección de Postman](docs/Task_API_Collection.postman_collection.json)** - Colección completa para importar en Postman con todos los endpoints configurados
 
 ---
 
@@ -377,6 +378,7 @@ El diagrama muestra:
 - [API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) - Documentación completa de endpoints
 - [MIGRATIONS.md](docs/MIGRATIONS.md) - Guía de migraciones
 - [Diagrama de Base de Datos](imgs/db_diagram.png) - Esquema visual
+- [Colección de Postman](docs/Task_API_Collection.postman_collection.json) - Importar en Postman
 - [FastAPI Docs](https://fastapi.tiangolo.com/) - Documentación oficial de FastAPI
 
 ---
