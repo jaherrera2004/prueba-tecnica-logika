@@ -61,6 +61,8 @@ API REST desarrollada con **FastAPI**, **PostgreSQL**, **SQLAlchemy** y **Alembi
 
 ## Inicio Rápido
 
+Por facilidad y para asegurar una ejecución end-to-end sin dependencias locales “mágicas”, se decidió **dockerizar toda la aplicación** (API + PostgreSQL) y dejar **Docker Compose** como flujo de ejecución principal.
+
 ### Prerrequisitos
 - Docker & Docker Compose
 - Git
@@ -103,63 +105,6 @@ Esto automáticamente:
 
 La API estará lista en aproximadamente 15 segundos.
 
-### Sin Docker
-
-1. **Crear entorno virtual**
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# o
-venv\Scripts\activate     # Windows
-```
-
-2. **Instalar dependencias**
-```bash
-pip install -r requirements.txt
-```
-
-3. **Configurar variables de entorno**
-
-Copiar `.env.local` existente o crear uno nuevo:
-
-```env
-# .env.local
-POSTGRES_USER=root
-POSTGRES_PASSWORD=123456
-POSTGRES_SERVER=localhost  # localhost para ejecución local
-POSTGRES_PORT=5432
-POSTGRES_DB=task_system_logika
-SECRET_KEY=tu-secret-key-super-segura-cambiar-en-produccion
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-PROJECT_NAME=Logika API
-VERSION=1.0.0
-```
-
-4. **Levantar PostgreSQL**
-```bash
-docker compose up postgres -d
-```
-
-5. **Ejecutar migraciones**
-```bash
-# Linux/Mac
-./migrate.sh
-
-# Windows
-migrate.bat
-
-# O directamente
-alembic upgrade head
-```
-
-6. **Iniciar la aplicación**
-```bash
-uvicorn app.main:app --reload
-```
-
-La API estará en http://localhost:8000
-
 ---
 
 ## Documentación
@@ -174,11 +119,11 @@ La API estará en http://localhost:8000
 
 ### 1. **Tabla de Usuarios Independiente**
 **Decisión**: Implementar una tabla `users` separada en lugar de manejar tareas sin autenticación.  
-**Razón**: Permite asignar tareas a usuarios específicos, facilita la implementación del endpoint `/auth/login`, y habilita features futuras como colaboración entre usuarios, permisos granulares y auditoría. Además, hace que los endpoints de tareas tengan sentido al filtrar por `user_id`, garantizando que cada usuario solo vea sus propias tareas.
+**Razón**: Permite asignar tareas a usuarios específicos, facilita la implementación del endpoint `/auth/login`, y habilita features futuras. Además, hace que los endpoints de tareas tengan sentido al filtrar por `user_id`, garantizando que cada usuario solo vea sus propias tareas.
 
 ### 2. **Autenticación por Email (no username)**
 **Decisión**: Usar `email` como identificador de usuario.  
-**Razón**: Más intuitivo para usuarios, único por naturaleza, y permite recuperación de contraseña.
+**Razón**: Más intuitivo para usuarios, único por naturaleza, y permite una posible recuperación de contraseña futura.
 
 ### 3. **Índices en Base de Datos**
 ```sql
@@ -436,4 +381,4 @@ El diagrama muestra:
 
 ---
 
-**Desarrollado para Prueba Técnica Logika**
+**Desarrollado por Juan Andrés Herrera para Prueba Técnica de Lógika**
