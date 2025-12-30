@@ -166,7 +166,7 @@ La API estará en http://localhost:8000
 
 - **[Documentación completa de la API](docs/API_DOCUMENTATION.md)** - Todos los endpoints con ejemplos detallados
 - **[Guía de migraciones](docs/MIGRATIONS.md)** - Comandos y buenas prácticas con Alembic
-- **[Diagrama de base de datos](docs/db_diagram.png)** - Esquema visual de las tablas y relaciones
+- **[Diagrama de base de datos](imgs/db_diagram.png)** - Esquema visual de las tablas y relaciones
 
 ---
 
@@ -416,7 +416,7 @@ bcrypt==4.1.3             # Hash de contraseñas
 
 ### Diagrama de Base de Datos
 
-![Diagrama de Base de Datos](./docs/db_diagram.png)
+![Diagrama de Base de Datos](./imgs/db_diagram.png)
 
 El diagrama muestra:
 - **Tabla `users`**: Almacena credenciales y datos de autenticación (id, name, lastname, email, password)
@@ -431,7 +431,7 @@ El diagrama muestra:
 - [Swagger UI](http://localhost:8000/docs) - Documentación interactiva
 - [API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) - Documentación completa de endpoints
 - [MIGRATIONS.md](docs/MIGRATIONS.md) - Guía de migraciones
-- [Diagrama de Base de Datos](docs/db_diagram.png) - Esquema visual
+- [Diagrama de Base de Datos](imgs/db_diagram.png) - Esquema visual
 - [FastAPI Docs](https://fastapi.tiangolo.com/) - Documentación oficial de FastAPI
 
 ---
