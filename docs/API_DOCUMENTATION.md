@@ -10,6 +10,18 @@ API REST para gestión de tareas con autenticación JWT.
 
 Todos los endpoints de tareas requieren autenticación mediante JWT Bearer Token.
 
+### Usuarios de prueba (seed)
+
+Al iniciar el proyecto por primera vez (migración inicial), se crean automáticamente estos usuarios para facilitar las pruebas:
+
+| Email | Password |
+|------|----------|
+| `pepito.perez@test.com` | `admin123` |
+| `maria.garcia@test.com` | `user123` |
+| `juan.lopez@test.com` | `user123` |
+
+> Nota: estos datos provienen del seed de la migración `001_initial_tables.py`.
+
 ### 1. Login
 
 Obtener token de acceso.
