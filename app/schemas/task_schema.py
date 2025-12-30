@@ -1,14 +1,8 @@
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 from datetime import datetime
-from enum import Enum
 
-
-class TaskStatus(str, Enum):
-    pending = "pending"
-    in_progress = "in_progress"
-    completed = "completed"
-    overdue = "overdue"
+from app.models.task_model import TaskStatus
 
 
 # Schema para crear tarea

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 import logging
 from app.db.session import get_db
-from app.schemas.task_schema import TaskCreate, TaskUpdate, TaskResponse, TaskListResponse
+from app.schemas.task_schema import TaskCreate, TaskUpdate, TaskResponse, TaskListResponse, TaskStatus
 from app.services.task_service import (
     create_task,
     get_task_by_id,
@@ -35,7 +35,7 @@ async def create_new_task(
 async def list_tasks(
     page: int = Query(1, ge=1, description="Numero de pagina"),
     page_size: int = Query(10, ge=1, le=100, description="Cantidad de registros por pagina"),
-    status_filter: Optional[str] = Query(None, description="Filtrar por status: pending, in_progress, completed"),
+    status_filter: Optional[TaskStatus] = Query(None, description="Filtrar por status: pending, in_progress, completed, overdue"),
     db: Session = Depends(get_db),
     user_id: int = Depends(get_current_user_id)
 ):
@@ -61,7 +61,7 @@ async def list_tasks(
 async def list_all_tasks(
     page: int = Query(1, ge=1, description="Numero de pagina"),
     page_size: int = Query(10, ge=1, le=100, description="Cantidad de registros por pagina"),
-    status_filter: Optional[str] = Query(None, description="Filtrar por status: pending, in_progress, completed, overdue"),
+    status_filter: Optional[TaskStatus] = Query(None, description="Filtrar por status: pending, in_progress, completed, overdue"),
     db: Session = Depends(get_db)
 ):
 

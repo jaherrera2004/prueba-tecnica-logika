@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 import logging
-from app.models.task_model import Task
+from app.models.task_model import Task, TaskStatus
 from app.schemas.task_schema import TaskCreate, TaskUpdate
 from typing import List, Optional
 
@@ -47,13 +47,13 @@ def get_task_by_id(db: Session, task_id: int, user_id: int) -> Task:
     return task
 
 
-def get_user_tasks(db: Session, user_id: int, skip: int = 0, limit: int = 100, status_filter: Optional[str] = None) -> tuple[List[Task], int]:
+def get_user_tasks(db: Session, user_id: int, skip: int = 0, limit: int = 100, status_filter: Optional[TaskStatus] = None) -> tuple[List[Task], int]:
     logger.debug(f"Consultando tareas para usuario {user_id} (skip: {skip}, limit: {limit}, filtro: {status_filter})")
     
     query = db.query(Task).filter(Task.user_id == user_id)
     
     # Filtrar por status si se proporciona
-    if status_filter:
+    if status_filter is not None:
         query = query.filter(Task.status == status_filter)
     
     total = query.count()
@@ -103,14 +103,14 @@ def delete_task(db: Session, task_id: int, user_id: int) -> None:
     logger.info(f"Tarea {task_id} eliminada exitosamente")
 
 
-def get_all_tasks(db: Session, skip: int = 0, limit: int = 100, status_filter: Optional[str] = None) -> tuple[List[Task], int]:
+def get_all_tasks(db: Session, skip: int = 0, limit: int = 100, status_filter: Optional[TaskStatus] = None) -> tuple[List[Task], int]:
 
     logger.debug(f"Consultando todas las tareas (skip: {skip}, limit: {limit}, filtro: {status_filter})")
     
     query = db.query(Task)
     
     # Filtrar por status si se proporciona
-    if status_filter:
+    if status_filter is not None:
         query = query.filter(Task.status == status_filter)
     
     total = query.count()
