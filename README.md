@@ -339,7 +339,7 @@ curl -X PUT http://localhost:8000/api/v1/tasks/1 \
 | `POSTGRES_DB` | Nombre de la base de datos | `task_system_logika` |
 | `SECRET_KEY` | Clave para firmar JWT | (cambiar en producción) |
 | `ALGORITHM` | Algoritmo JWT | `HS256` |
-| `ACCESS_TOKEN_EXPIRE_MINUTES` | Expiración del token | `30` minutos |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | Expiración del token | `60` minutos |
 
 ---
 
