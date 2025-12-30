@@ -15,6 +15,10 @@ import sqlalchemy as sa
 from sqlalchemy.sql import table, column
 from datetime import datetime
 import bcrypt
+import logging
+
+
+logger = logging.getLogger("alembic.runtime.migration")
 
 
 # Identificadores de revisión
@@ -30,9 +34,12 @@ def upgrade() -> None:
     Esta función se ejecuta cuando corres: alembic upgrade head
     """
     
+    logger.info("[001] Iniciando migración: creación de tablas + seed")
+
     # ========================================
     # 1. CREAR TABLA USERS
     # ========================================
+    logger.info("[001] Creando tabla 'users'")
     op.create_table(
         'users',
         sa.Column('id', sa.BigInteger(), nullable=False),
@@ -44,12 +51,14 @@ def upgrade() -> None:
     )
     
     # Crear índices en users
+    logger.info("[001] Creando índices de 'users'")
     op.create_index('ix_users_id', 'users', ['id'], unique=False)
     op.create_index('ix_users_email', 'users', ['email'], unique=True)
     
     # ========================================
     # 2. CREAR TABLA TASKS
     # ========================================
+    logger.info("[001] Creando tabla 'tasks'")
     op.create_table(
         'tasks',
         sa.Column('id', sa.BigInteger(), nullable=False),
@@ -64,12 +73,14 @@ def upgrade() -> None:
     )
     
     # Crear índices en tasks
+    logger.info("[001] Creando índices de 'tasks'")
     op.create_index('ix_tasks_id', 'tasks', ['id'], unique=False)
     op.create_index('ix_tasks_user_id', 'tasks', ['user_id'], unique=False)
     
     # ========================================
     # 3. INSERTAR USUARIO INICIAL (OBLIGATORIO)
     # ========================================
+    logger.info("[001] Insertando usuario inicial obligatorio")
     
     # Hashear la contraseña de forma segura
     password = "admin123"
@@ -102,6 +113,7 @@ def upgrade() -> None:
     # ========================================
     # 4. INSERTAR DATOS DE EJEMPLO (SEED DATA)
     # ========================================
+    logger.info("[001] Insertando usuarios seed adicionales")
     
     # Insertar 2 usuarios más de prueba
     password_user = "user123"
@@ -139,6 +151,7 @@ def upgrade() -> None:
     )
     
     # Insertar 8 tareas de ejemplo con diferentes estados
+    logger.info("[001] Insertando tareas seed")
     op.bulk_insert(
         tasks_table,
         [
@@ -209,6 +222,8 @@ def upgrade() -> None:
         ]
     )
 
+    logger.info("[001] Migración completada exitosamente")
+
 
 def downgrade() -> None:
     """
@@ -216,6 +231,8 @@ def downgrade() -> None:
     Esta función se ejecuta cuando corres: alembic downgrade -1
     """
     
+    logger.info("[001] Revirtiendo migración: eliminando tablas e índices")
+
     # Eliminar las tablas en orden inverso (por las foreign keys)
     op.drop_index('ix_tasks_user_id', table_name='tasks')
     op.drop_index('ix_tasks_id', table_name='tasks')
@@ -224,3 +241,5 @@ def downgrade() -> None:
     op.drop_index('ix_users_email', table_name='users')
     op.drop_index('ix_users_id', table_name='users')
     op.drop_table('users')
+
+    logger.info("[001] Downgrade completado")
